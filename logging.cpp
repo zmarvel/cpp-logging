@@ -4,7 +4,7 @@
 
 LogLevel Logger::ourLogLevel = LogLevel::WARNING;
 
-int Logger::log(LogLevel level, std::string fmt, ...) {
+int Logger::log(LogLevel level, const std::string& fmt, ...) {
   int rc = -1;
 
   va_list args;
@@ -15,7 +15,7 @@ int Logger::log(LogLevel level, std::string fmt, ...) {
   return rc;
 }
 
-int Logger::log(LogLevel level, std::string fmt, va_list args) {
+int Logger::log(LogLevel level, const std::string& fmt, va_list args) {
   if (static_cast<int>(ourLogLevel) > static_cast<int>(level)) {
     return 0;
   }
@@ -43,7 +43,7 @@ int Logger::log(LogLevel level, std::string fmt, va_list args) {
   return 0;
 }
 
-int Logger::debug(std::string fmt, ...) {
+int Logger::debug(const std::string& fmt, ...) {
   int rc = -1;
 
   va_list args;
@@ -54,7 +54,19 @@ int Logger::debug(std::string fmt, ...) {
   return rc;
 }
 
-int Logger::info(std::string fmt, ...) {
+int Logger::debug(const std::string& prefix, const std::string& fmt, ...) {
+  int rc = -1;
+
+  va_list args;
+  va_start(args, fmt);
+  rc = Logger::log(LogLevel::DEBUG, prefix + ": " + fmt, args);
+  va_end(args);
+
+  return rc;
+}
+
+
+int Logger::info(const std::string& fmt, ...) {
   int rc = -1;
 
   va_list args;
@@ -65,7 +77,19 @@ int Logger::info(std::string fmt, ...) {
   return rc;
 }
 
-int Logger::warning(std::string fmt, ...) {
+int Logger::info(const std::string& prefix, const std::string& fmt, ...) {
+  int rc = -1;
+
+  va_list args;
+  va_start(args, fmt);
+  rc = Logger::log(LogLevel::INFO, prefix + ": " + fmt, args);
+  va_end(args);
+
+  return rc;
+}
+
+
+int Logger::warning(const std::string& fmt, ...) {
   int rc = -1;
 
   va_list args;
@@ -76,7 +100,19 @@ int Logger::warning(std::string fmt, ...) {
   return rc;
 }
 
-int Logger::error(std::string fmt, ...) {
+int Logger::warning(const std::string& prefix, const std::string& fmt, ...) {
+  int rc = -1;
+
+  va_list args;
+  va_start(args, fmt);
+  rc = Logger::log(LogLevel::WARNING, prefix + ": " + fmt, args);
+  va_end(args);
+
+  return rc;
+}
+
+
+int Logger::error(const std::string& fmt, ...) {
   int rc = -1;
 
   va_list args;
@@ -86,6 +122,18 @@ int Logger::error(std::string fmt, ...) {
 
   return rc;
 }
+
+int Logger::error(const std::string& prefix, const std::string& fmt, ...) {
+  int rc = -1;
+
+  va_list args;
+  va_start(args, fmt);
+  rc = Logger::log(LogLevel::ERROR, prefix + ": " + fmt, args);
+  va_end(args);
+
+  return rc;
+}
+
 
 LogLevel Logger::getLogLevel() {
   return ourLogLevel;

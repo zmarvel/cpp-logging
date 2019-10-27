@@ -14,12 +14,16 @@ enum class LogLevel {
 
 class Logger {
  public:
-  static int log(LogLevel level, std::string fmt, ...);
-  static int log(LogLevel level, std::string fmt, va_list args);
-  static int debug(std::string fmt, ...);
-  static int info(std::string fmt, ...);
-  static int warning(std::string fmt, ...);
-  static int error(std::string fmt, ...);
+  static int log(LogLevel level, const std::string& fmt, ...);
+  static int log(LogLevel level, const std::string& fmt, va_list args);
+  static int debug(const std::string& fmt, ...);
+  static int debug(const std::string& prefix, const std::string& fmt, ...);
+  static int info(const std::string& fmt, ...);
+  static int info(const std::string& prefix, const std::string& fmt, ...);
+  static int warning(const std::string& fmt, ...);
+  static int warning(const std::string& prefix, const std::string& fmt, ...);
+  static int error(const std::string& fmt, ...);
+  static int error(const std::string& prefix, const std::string& fmt, ...);
 
   static LogLevel getLogLevel();
   static void setLogLevel(LogLevel level);
